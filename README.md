@@ -9,16 +9,29 @@ Para rodar a API, é necessário instalar as dependências listadas abaixo:
 ### Instalação
 
 1. Inicializar o projeto:
+   
    ```sh
    npm init -y
 
-#### Instalar dependências principais:
+3. Instalar dependências principais:
+   
+   ```sh
+   npm install express mongoose dotenv cors bcryptjs jsonwebtoken
 
-```sh
-npm install express mongoose dotenv cors bcryptjs jsonwebtoken
+4. Instalar dependências de desenvolvimento:
+   
+   ```sh
+   npm install --save-dev nodemon
 
 
-#### Instalar dependências de desenvolvimento:
+## Descrição das Dependências Utilizadas
 
-```sh
-npm install --save-dev nodemon
+| Pacote       | Descrição |
+|-------------|-----------|
+| **express** | Framework para criar APIs no Node.js |
+| **mongoose** | Biblioteca ODM para interação com MongoDB |
+| **dotenv** | Gerencia variáveis de ambiente |
+| **cors** | Middleware para permitir requisições de diferentes origens |
+| **bcryptjs** | Biblioteca para criptografar senhas |
+| **jsonwebtoken** | Implementa autenticação via JWT |
+| **nodemon** | Reinicia o servidor automaticamente ao detectar alterações |
