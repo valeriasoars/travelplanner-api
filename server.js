@@ -4,6 +4,7 @@ import cors from "cors"
 import connectDB from "./src/config/database.js"
 
 import usuarioRoutes from "./src/routes/usuarioRoutes.js"
+import viagemRoutes from './src/routes/viagemRoutes.js';
 
 dotenv.config()
 connectDB()
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/usuario", usuarioRoutes)
+app.use("/viagem", viagemRoutes);
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`))
