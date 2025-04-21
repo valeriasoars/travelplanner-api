@@ -1,8 +1,8 @@
-import PlanejamentoDiario from '../models/PlanejamentoDiario.js'
+import planejamentoService from '../services/planejamentoService.js'
 
-export const listarPlanejamentos = async (req, res) => {
+const listarPlanejamentos = async (req, res) => {
   try {
-    const planejamentos = await PlanejamentoDiario.find({ viagemId: req.params.viagemId })
+    const planejamentos = await planejamentoService.listarPlanejamentos(req.params.viagemId)
     res.status(200).json({
       mensagem: 'Planejamentos encontrados com sucesso!',
       dados: planejamentos
@@ -12,9 +12,9 @@ export const listarPlanejamentos = async (req, res) => {
   }
 }
 
-export const criarPlanejamento = async (req, res) => {
+const criarPlanejamento = async (req, res) => {
   try {
-    const novo = await PlanejamentoDiario.create(req.body)
+    const novo = await planejamentoService.criarPlanejamento(req.body)
     res.status(201).json({
       mensagem: 'Planejamento criado com sucesso!',
       dados: novo
@@ -24,9 +24,9 @@ export const criarPlanejamento = async (req, res) => {
   }
 }
 
-export const atualizarPlanejamento = async (req, res) => {
+const atualizarPlanejamento = async (req, res) => {
   try {
-    const atualizado = await PlanejamentoDiario.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const atualizado = await planejamentoService.atualizarPlanejamento(req.params.id, req.body)
     res.status(200).json({
       mensagem: 'Planejamento atualizado com sucesso!',
       dados: atualizado
@@ -36,9 +36,9 @@ export const atualizarPlanejamento = async (req, res) => {
   }
 }
 
-export const deletarPlanejamento = async (req, res) => {
+const deletarPlanejamento = async (req, res) => {
   try {
-    await PlanejamentoDiario.findByIdAndDelete(req.params.id)
+    await planejamentoService.deletarPlanejamento(req.params.id)
     res.status(200).json({ mensagem: 'Planejamento deletado com sucesso!' })
   } catch (error) {
     res.status(400).json({ mensagem: 'Erro ao deletar planejamento', erro: error.message })
