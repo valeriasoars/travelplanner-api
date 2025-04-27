@@ -3,6 +3,13 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const cadastrarUsuario = async ({ nome, email, senha }) => {
+
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    throw new Error("Formato de e-mail inválido");
+  }
+  
   const usuarioExistente = await Usuario.findOne({ email });
   if (usuarioExistente) {
     throw new Error("Usuário já existe");
