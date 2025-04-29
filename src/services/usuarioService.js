@@ -2,12 +2,14 @@ import Usuario from "../models/Usuario.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const cadastrarUsuario = async ({ nome, email, senha }) => {
-
-
+export const cadastrarUsuario = async ({ nome, email, senha, confirmarSenha }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     throw new Error("Formato de e-mail inválido");
+  }
+
+  if(senha !== confirmarSenha){
+    throw new Error("As senhas não conferem")
   }
   
   const usuarioExistente = await Usuario.findOne({ email });

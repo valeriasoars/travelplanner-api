@@ -29,6 +29,8 @@ const router = express.Router()
  *                 type: string
  *               senha:
  *                 type: string
+ *               confirmarSenha:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Usuário cadastrado com sucesso
