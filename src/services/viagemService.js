@@ -1,7 +1,29 @@
+import Usuario from '../models/Usuario.js'
 import Viagem from '../models/Viagem.js'
 
-const criarViagem = async (dadosViagem) => {
-  return await Viagem.create(dadosViagem)
+const criarViagem = async (dadosViagem, usuarioId) => {
+  const usuario = await Usuario.findById(usuarioId)
+  if (!usuario) throw new Error("Usuário não encontrado")
+
+   const {dataInicio, dataFim} = dadosViagem
+
+   const viagensConflitantes = await Viagem.find({
+    usuarioId,
+    $or: [
+      {
+        dataInicio: {$lte: dataFim},
+        dataFim: {$gte: dataInicio}
+      }
+    ]
+   })
+
+   if(viagensConflitantes.length > 0){
+    throw new Error("Já existe uma viagem com essa data.")
+   }
+
+  const viagem = new Viagem({ ...dadosViagem, usuarioId })
+  await viagem.save()
+  return viagem
 }
 
 const listarViagensPorUsuario = async (usuarioId, status) => {

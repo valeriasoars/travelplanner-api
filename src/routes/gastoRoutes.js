@@ -27,6 +27,10 @@ const router = express.Router()
  */
 router.get('/:viagemId', authMiddleware, gastoController.listarGastosPorViagem)
 
+
+router.get('/saldo/:viagemId',  gastoController.obterSaldoRestante)
+
+
 /**
  * @swagger
  * /gasto:

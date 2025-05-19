@@ -2,7 +2,7 @@ import viagemService from '../services/viagemService.js'
 
 const criarViagem = async (req, res) => {
   try {
-    const novaViagem = await viagemService.criarViagem(req.body)
+    const novaViagem = await viagemService.criarViagem(req.body, req.usuarioId)
     res.status(201).json({ mensagem: 'Viagem criada com sucesso!', viagem: novaViagem })
   } catch (error) {
     res.status(400).json({ erro: 'Erro ao criar viagem.', detalhe: error.message })

@@ -55,9 +55,20 @@ const deletarGasto = async (req, res) => {
   }
 }
 
+const obterSaldoRestante = async (req, res) => {
+  try {
+    const saldo = await gastoService.obterSaldoRestante(req.params.viagemId)
+    res.status(200).json({ mensagem: 'Saldo obtido com sucesso.', saldo })
+  } catch (error) {
+    res.status(400).json({ erro: 'Erro ao obter saldo.', detalhe: error.message })
+  }
+}
+
+
 export default {
   listarGastosPorViagem,
   criarGasto,
   atualizarGasto,
-  deletarGasto
+  deletarGasto,
+  obterSaldoRestante 
 }
