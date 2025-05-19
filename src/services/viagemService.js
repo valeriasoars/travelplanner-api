@@ -7,6 +7,10 @@ const criarViagem = async (dadosViagem, usuarioId) => {
 
    const {dataInicio, dataFim} = dadosViagem
 
+  if (new Date(dataFim) < new Date(dataInicio)) {
+    throw new Error("A data de fim não pode ser menor que a data de início.")
+  }
+
    const viagensConflitantes = await Viagem.find({
     usuarioId,
     $or: [
