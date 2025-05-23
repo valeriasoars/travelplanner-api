@@ -1,4 +1,5 @@
 import PlanejamentoDiario from '../models/PlanejamentoDiario.js'
+import Viagem from '../models/Viagem.js'
 
 const listarPlanejamentos = async (viagemId) => {
   return await PlanejamentoDiario.find({ viagemId })
@@ -7,9 +8,20 @@ const listarPlanejamentos = async (viagemId) => {
 const criarPlanejamento = async (dados) => {
   const {viagemId, data} = dados
 
+  const dataPlanejamento = new Date(data)
+
+  const viagem = await Viagem.findById(viagemId)
+  if(!viagem){
+    throw new Error("Viagem não encontrada.")
+  }
+
+  if (dataPlanejamento < viagem.dataInicio || dataPlanejamento > viagem.dataFim) {
+    throw new Error("A data do planejamento deve estar dentro do período da viagem.")
+  }
+
   const conflito = await PlanejamentoDiario.findOne({
     viagemId,
-    data: { $eq: new Date(data)}
+    data: { $eq: dataPlanejamento}
   })
 
   if (conflito) {

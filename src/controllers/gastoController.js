@@ -14,7 +14,14 @@ const listarGastosPorViagem = async (req, res) => {
 
 const criarGasto = async (req, res) => {
   try {
-    const novoGasto = await gastoService.criarGasto(req.body)
+    const { viagemId } = req.params
+
+    const dados = {
+      ...req.body,
+      viagemId
+    }
+
+    const novoGasto = await gastoService.criarGasto(dados)
     res.status(201).json({
       mensagem: 'Gasto criado com sucesso.',
       dados: novoGasto

@@ -46,12 +46,19 @@ export const buscarUsuario = async (usuarioId) => {
 };
 
 export const atualizarUsuario = async (usuarioId, dados) => {
-  const usuario = await Usuario.findByIdAndUpdate(usuarioId, dados, {
+  const usuarioExistente = await Usuario.findById(usuarioId);
+  if (!usuarioExistente) throw new Error("Usuário não encontrado");
+
+  if (dados.senha) {
+    dados.senha = await bcrypt.hash(dados.senha, 10);
+  }
+
+  const usuarioAtualizado = await Usuario.findByIdAndUpdate(usuarioId, dados, {
     new: true,
-  })
-  if (!usuario) throw new Error("Usuário não encontrado")
-  return usuario
-}
+  });
+
+  return usuarioAtualizado;
+};
 
 
 export const removerUsuario = async (usuarioId) => {

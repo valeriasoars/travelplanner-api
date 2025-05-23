@@ -14,7 +14,14 @@ const listarAtividades = async (req, res) => {
 
 const criarAtividade = async (req, res) => {
   try {
-    const nova = await atividadeService.criarAtividade(req.body)
+    const { planejamentoId } = req.params
+
+    const dados = {
+      ...req.body,
+      planejamentoId
+    }
+
+    const nova = await atividadeService.criarAtividade(dados)
     res.status(201).json({
       mensagem: 'Atividade criada com sucesso!',
       dados: nova

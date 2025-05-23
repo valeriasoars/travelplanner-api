@@ -29,7 +29,7 @@ router.get('/:viagemId', authMiddleware, planejamentoDiarioController.listarPlan
 
 /**
  * @swagger
- * /planejamento:
+ * /planejamento/{viagemId}:
  *   post:
  *     summary: Cria um novo planejamento diário
  *     tags: [Planejamento Diário]
@@ -61,7 +61,7 @@ router.get('/:viagemId', authMiddleware, planejamentoDiarioController.listarPlan
  *       400:
  *         description: Erro ao criar planejamento
  */
-router.post('/', authMiddleware, planejamentoDiarioController.criarPlanejamento)
+router.post('/:viagemId', authMiddleware, planejamentoDiarioController.criarPlanejamento)
 
 /**
  * @swagger

@@ -9,6 +9,17 @@ const criarViagem = async (req, res) => {
   }
 }
 
+const listarViagensDoUsuarioLogado = async (req, res) => {
+  const usuarioId = req.usuarioId; 
+
+  try {
+    const viagens = await viagemService.listarViagensPorUsuario(usuarioId);
+    res.status(200).json({ mensagem: 'Viagens do usuário encontradas com sucesso.', viagens });
+  } catch (error) {
+    res.status(400).json({ erro: 'Erro ao buscar viagens do usuário.', detalhe: error.message });
+  }
+};
+
 const listarViagensPorUsuario = async (req, res) => {
   const { usuarioId } = req.params
   const { status } = req.query
@@ -82,5 +93,6 @@ export default {
   listarViagensPorUsuarioComFiltroStatus,
   obterViagemPorId,
   deletarViagem,
-  atualizarViagem
+  atualizarViagem,
+  listarViagensDoUsuarioLogado
 }

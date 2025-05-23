@@ -29,7 +29,7 @@ router.get('/:planejamentoId', authMiddleware, atividadeController.listarAtivida
 
 /**
  * @swagger
- * /atividade:
+ * /atividade/{planejamentoId}:
  *   post:
  *     summary: Cria uma nova atividade
  *     tags: [Atividade]
@@ -59,7 +59,7 @@ router.get('/:planejamentoId', authMiddleware, atividadeController.listarAtivida
  *       400:
  *         description: Erro ao criar atividade
  */
-router.post('/', authMiddleware, atividadeController.criarAtividade)
+router.post('/:planejamentoId', authMiddleware, atividadeController.criarAtividade)
 
 /**
  * @swagger

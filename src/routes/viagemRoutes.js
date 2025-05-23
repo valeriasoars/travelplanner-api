@@ -6,48 +6,21 @@ const router = express.Router()
 
 /**
  * @swagger
- * /viagem:
+ * /viagem/minhas:
  *   get:
- *     summary: Listar todas as viagens
+ *     summary: Listar viagens do usuário 
  *     security:
- *       - bearerAuth: []  # Token de autenticação necessário
+ *       - bearerAuth: []
  *     tags:
  *       - Viagens
- *     responses:
- *       200:
- *         description: Lista de todas as viagens
- *       401:
- *         description: Não autorizado (token inválido)
- *       500:
- *         description: Erro ao buscar viagens
- */
-router.get('/', authMiddleware, viagemController.listarTodasViagens);
-
-/**
- * @swagger
- * /viagem/{usuarioId}:
- *   get:
- *     summary: Listar viagens de um usuário
- *     security:
- *       - bearerAuth: []  # Token de autenticação necessário
- *     tags:
- *       - Viagens
- *     parameters:
- *       - in: path
- *         name: usuarioId
- *         required: true
- *         schema:
- *           type: string
- *         description: ID do usuário para listar suas viagens
  *     responses:
  *       200:
  *         description: Viagens do usuário encontradas com sucesso
- *       400:
- *         description: Erro ao buscar viagens do usuário
- *       404:
- *         description: Usuário não encontrado
+ *       401:
+ *         description: Não autorizado (token inválido)
  */
-router.get('/:usuarioId', authMiddleware, viagemController.listarViagensPorUsuario);
+router.get('/minhas', authMiddleware, viagemController.listarViagensDoUsuarioLogado);
+
 
 /**
  * @swagger
@@ -198,5 +171,24 @@ router.put('/:id', authMiddleware, viagemController.atualizarViagem);
  */
 router.delete('/:id', authMiddleware, viagemController.deletarViagem);
 
+
+
+//  * @swagger
+//  * /viagem:
+//  *   get:
+//  *     summary: Listar todas as viagens
+//  *     security:
+//  *       - bearerAuth: []  # Token de autenticação necessário
+//  *     tags:
+//  *       - Viagens
+//  *     responses:
+//  *       200:
+//  *         description: Lista de todas as viagens
+//  *       401:
+//  *         description: Não autorizado (token inválido)
+//  *       500:
+//  *         description: Erro ao buscar viagens
+//  */
+//router.get('/', authMiddleware, viagemController.listarTodasViagens);
 
 export default router;

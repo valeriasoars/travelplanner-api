@@ -14,7 +14,11 @@ const listarPlanejamentos = async (req, res) => {
 
 const criarPlanejamento = async (req, res) => {
   try {
-    const novo = await planejamentoService.criarPlanejamento(req.body)
+    const { data } = req.body
+    const viagemId = req.params.viagemId
+
+    const novo = await planejamentoService.criarPlanejamento({ viagemId, data })
+
     res.status(201).json({
       mensagem: 'Planejamento criado com sucesso!',
       dados: novo
@@ -23,7 +27,6 @@ const criarPlanejamento = async (req, res) => {
     res.status(400).json({ mensagem: 'Erro ao criar planejamento', erro: error.message })
   }
 }
-
 const atualizarPlanejamento = async (req, res) => {
   try {
     const atualizado = await planejamentoService.atualizarPlanejamento(req.params.id, req.body)

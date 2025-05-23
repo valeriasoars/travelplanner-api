@@ -28,12 +28,11 @@ const router = express.Router()
 router.get('/:viagemId', authMiddleware, gastoController.listarGastosPorViagem)
 
 
-router.get('/saldo/:viagemId',  gastoController.obterSaldoRestante)
-
+router.get('/saldo/:viagemId', authMiddleware, gastoController.obterSaldoRestante)
 
 /**
  * @swagger
- * /gasto:
+ * /gasto/{viagemId}:
  *   post:
  *     summary: Cria um novo gasto
  *     tags: [Gasto]
@@ -66,7 +65,7 @@ router.get('/saldo/:viagemId',  gastoController.obterSaldoRestante)
  *       400:
  *         description: Erro ao criar gasto
  */
-router.post('/', authMiddleware, gastoController.criarGasto)
+router.post('/:viagemId', authMiddleware, gastoController.criarGasto)
 
 /**
  * @swagger
