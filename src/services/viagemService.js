@@ -1,5 +1,6 @@
 import Usuario from '../models/Usuario.js'
 import Viagem from '../models/Viagem.js'
+import PlanejamentoDiario from '../models/PlanejamentoDiario.js'
 
 const criarViagem = async (dadosViagem, usuarioId) => {
   const usuario = await Usuario.findById(usuarioId)
@@ -27,6 +28,23 @@ const criarViagem = async (dadosViagem, usuarioId) => {
 
   const viagem = new Viagem({ ...dadosViagem, usuarioId })
   await viagem.save()
+
+   const inicio = new Date(dataInicio)
+   const fim = new Date(dataFim)
+   let atual = new Date(inicio)
+
+   const planejamentoDiario = []
+
+   while(atual <= fim){
+    planejamentoDiario.push({
+      viagemId: viagem._id,
+      data: new Date(atual)
+    })
+    atual.setDate(atual.getDate() + 1)
+   }
+
+   await PlanejamentoDiario.insertMany(planejamentoDiario)
+
   return viagem
 }
 

@@ -16,9 +16,15 @@ export const logarUsuario = async (req, res) => {
     const { usuario, token } = await usuarioService.logarUsuario(req.body)
     res.status(200).json({ mensagem: "Usuário logado com sucesso", token })
   } catch (error) {
-    res
-      .status(400)
-      .json({ mensagem: "Erro ao fazer login", erro: error.message })
+    if (error.message === 'Usuário não encontrado') {
+      return res.status(404).json({ mensagem: "Usuário não encontrado" });
+    }
+
+    if (error.message === 'Senha incorreta') {
+      return res.status(401).json({ mensagem: "Senha incorreta" });
+    }
+
+    return res.status(500).json({ mensagem: "Erro ao fazer login", erro: error.message });
   }
 }
 
