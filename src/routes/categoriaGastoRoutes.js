@@ -20,6 +20,8 @@ const router = express.Router()
  */
 router.get('/', authMiddleware, categoriaGastoController.listarCategorias)
 
+router.get('/:id', authMiddleware, categoriaGastoController.obterCategoriaPorId)
+
 /**
  * @swagger
  * /categoria-gasto:

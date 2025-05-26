@@ -12,6 +12,17 @@ const listarCategorias = async (req, res) => {
   }
 }
 
+const obterCategoriaPorId = async (req, res) => {
+  try {
+    const categoria = await categoriaGastoService.obterCategoriaPorId(req.params.id)
+    if (!categoria) return res.status(404).json({ erro: 'Categoria não encontrada.' })
+
+    res.status(200).json({ mensagem: 'Categoria encontrada com sucesso.', categoria })
+  } catch (error) {
+    res.status(400).json({ erro: 'Erro ao buscar categoria.', detalhe: error.message })
+  }
+}
+
 const criarCategoria = async (req, res) => {
   try {
     const novaCategoria = await categoriaGastoService.criarCategoria(req.body)
@@ -59,5 +70,6 @@ export default {
   listarCategorias,
   criarCategoria,
   atualizarCategoria,
-  deletarCategoria
+  deletarCategoria,
+  obterCategoriaPorId
 }

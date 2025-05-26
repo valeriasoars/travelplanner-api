@@ -1,11 +1,16 @@
 import CategoriaGasto from '../models/CategoriaGasto.js'
 
+
 const listarCategorias = async () => {
   return await CategoriaGasto.find()
 }
 
 const criarCategoria = async (dados) => {
   return await CategoriaGasto.create(dados)
+}
+
+const obterCategoriaPorId = async (id) => {
+  return await CategoriaGasto.findById(id)
 }
 
 const atualizarCategoria = async (id, dados) => {
@@ -20,5 +25,6 @@ export default {
   listarCategorias,
   criarCategoria,
   atualizarCategoria,
-  deletarCategoria
+  deletarCategoria,
+  obterCategoriaPorId 
 }
