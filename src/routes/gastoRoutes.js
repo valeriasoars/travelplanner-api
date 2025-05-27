@@ -6,7 +6,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /gasto/{viagemId}:
+ * /gastos/{viagemId}:
  *   get:
  *     summary: Lista todos os gastos de uma viagem
  *     tags: [Gasto]
@@ -32,7 +32,7 @@ router.get('/saldo/:viagemId', authMiddleware, gastoController.obterSaldoRestant
 
 /**
  * @swagger
- * /gasto/{viagemId}:
+ * /gastos/{viagemId}:
  *   post:
  *     summary: Cria um novo gasto
  *     tags: [Gasto]
@@ -43,7 +43,6 @@ router.get('/saldo/:viagemId', authMiddleware, gastoController.obterSaldoRestant
  *           schema:
  *             type: object
  *             required:
- *               - viagemId
  *               - categoriaGastoId
  *               - valor
  *               - descricao

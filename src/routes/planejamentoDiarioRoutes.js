@@ -6,7 +6,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /planejamento/{viagemId}:
+ * /planejamento-diario/{viagemId}:
  *   get:
  *     summary: Lista todos os planejamentos de uma viagem
  *     tags: [Planejamento Diário]
@@ -29,7 +29,7 @@ router.get('/:viagemId', authMiddleware, planejamentoDiarioController.listarPlan
 
 /**
  * @swagger
- * /planejamento/{viagemId}:
+ * /planejamento-diario/{viagemId}:
  *   post:
  *     summary: Cria um novo planejamento diário
  *     tags: [Planejamento Diário]
