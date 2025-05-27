@@ -19,6 +19,8 @@ const criarAtividade = async (dados) => {
 const atualizarAtividade = async (id, dados) => {
     const { planejamentoId, horario } = dados
 
+  // 2. Busca se existe alguma outra atividade com o mesmo planejamentoId e horário,
+  // excluindo a própria atividade que está sendo atualizada (usando $ne para _id diferente).
   const conflito = await Atividade.findOne({
     _id: { $ne: id }, 
     planejamentoId,

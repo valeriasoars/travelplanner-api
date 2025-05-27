@@ -12,6 +12,7 @@ const criarViagem = async (dadosViagem, usuarioId) => {
     throw new Error("A data de fim não pode ser menor que a data de início.")
   }
 
+    // Busca viagens do mesmo usuário que tenham datas que conflitam com o período da nova viagem.
    const viagensConflitantes = await Viagem.find({
     usuarioId,
     $or: [
@@ -35,6 +36,8 @@ const criarViagem = async (dadosViagem, usuarioId) => {
 
    const planejamentoDiario = []
 
+   
+  //Loop que percorre cada dia do período da viagem.
    while(atual <= fim){
     planejamentoDiario.push({
       viagemId: viagem._id,
@@ -43,6 +46,7 @@ const criarViagem = async (dadosViagem, usuarioId) => {
     atual.setDate(atual.getDate() + 1)
    }
 
+  //Insere todos os registros diários no banco, em lote.
    await PlanejamentoDiario.insertMany(planejamentoDiario)
 
   return viagem
@@ -73,6 +77,7 @@ const atualizarViagem = async (id, dadosAtualizados) => {
 }
 
 const deletarViagem = async (id) => {
+  await PlanejamentoDiario.deleteMany({ viagemId: id })
   return await Viagem.findByIdAndDelete(id)
 }
 

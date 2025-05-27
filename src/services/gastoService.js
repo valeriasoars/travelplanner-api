@@ -2,16 +2,23 @@ import Gasto from '../models/Gasto.js'
 import Viagem from '../models/Viagem.js'
 
 const listarGastosPorViagem = async (viagemId) => {
-  return await Gasto.find({ viagemId }).populate('categoriaGastoId')
+  return await Gasto.find({ viagemId })
+    .populate('categoriaGastoId')
+    .sort({ createdAt: -1 })  //  Ordena os gastos pela data de criação, do mais recente para o mais antigo
 }
 
 const criarGasto = async (dados) => {
 
-  const {viagemId, valor} = dados
+  const {viagemId, valor, data} = dados
 
   const viagem = await Viagem.findById(viagemId)
   if(!viagem) throw new Error('Viagem não encontrada')
 
+  if (data < viagem.dataInicio || data > viagem.dataFim) {
+    throw new Error(`A data do gasto (${data.toLocaleDateString()}) está fora do período da viagem (${viagem.dataInicio.toLocaleDateString()} a ${viagem.dataFim.toLocaleDateString()}).`);
+  }
+
+   // Calcula o total atual de gastos da viagem usando agregação
     const totalGastos = await Gasto.aggregate([
       {$match: { viagemId: viagem._id}},
       {$group: {_id:null, total:  {$sum: "$valor"}}}
@@ -34,6 +41,7 @@ const atualizarGasto = async (id, dados) => {
   const viagem = await Viagem.findById(gastoAtual.viagemId)
   if(!viagem) throw new Error('Viagem não encontrada')
 
+  // Calcula o total dos gastos da viagem, excluindo o gasto atual
   const totalGastos = await Gasto.aggregate([
     { 
       $match: {
@@ -59,6 +67,7 @@ const atualizarGasto = async (id, dados) => {
   return await Gasto.findByIdAndUpdate(id, dados, { new: true })
 }
 
+
 const deletarGasto = async (id) => {
   return await Gasto.findByIdAndDelete(id)
 }
@@ -68,6 +77,7 @@ const obterSaldoRestante = async (viagemId) => {
   const viagem = await Viagem.findById(viagemId)
   if (!viagem) throw new Error('Viagem não encontrada.')
 
+  // Utiliza o aggregate para somar todos os valores dos gastos relacionados a essa viagem
   const totalGastos = await Gasto.aggregate([
     { $match: { viagemId: viagem._id } },
     { $group: { _id: null, total: { $sum: "$valor" } } }

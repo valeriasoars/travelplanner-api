@@ -6,6 +6,12 @@ const gastoSchema = new mongoose.Schema({
   descricao: { type: String, required: true },
   valor: { type: Number, required: true },
   data: { type: Date, required: true }
+  },
+    {
+  timestamps: true
 });
+
+// Índice simples para otimizar buscas por viagemId
+gastoSchema.index({ viagemId: 1 });
 
 export default mongoose.model('Gasto', gastoSchema)

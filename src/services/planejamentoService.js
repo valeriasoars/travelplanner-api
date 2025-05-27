@@ -19,6 +19,7 @@ const criarPlanejamento = async (dados) => {
     throw new Error("A data do planejamento deve estar dentro do período da viagem.")
   }
 
+    //Verifica se já existe um planejamento para a mesma data e viagem.
   const conflito = await PlanejamentoDiario.findOne({
     viagemId,
     data: { $eq: dataPlanejamento}
@@ -34,6 +35,8 @@ const criarPlanejamento = async (dados) => {
 const atualizarPlanejamento = async (id, dados) => {
   const { viagemId, data } = dados
 
+  // Verifica se já existe outro planejamento para a mesma viagem e data,
+  // excluindo o planejamento que está sendo atualizado (usando $ne para _id diferente).
   const conflito = await PlanejamentoDiario.findOne({
     _id: { $ne: id }, 
     viagemId,
